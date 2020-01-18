@@ -1,0 +1,27 @@
+﻿@model MVC_CRUD_DiplomadoUASD_AJAX_II.Models.UserLogin
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row" style="background-color:aquamarine;">
+    <div class="card">
+        <div class="card-header">
+            <h3>Iniciar Sesion</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <input for="Email" type="text" id="Email" placeholder="email@example.com" class="form-control"/>
+                @Html.ValidationMessageFor(l => l.Email, "" , new { @class = "text-danger"})
+            </div>
+            <div class="form-group">
+                <input for="Password" type="password" id="Password" placeholder="password" class="form-control" />
+                @Html.ValidationMessageFor(l => l.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div>
+                <button class="form-button" type="submit">Login</button>
+            </div>
+        </div>
+    </div>
+
+</div>
