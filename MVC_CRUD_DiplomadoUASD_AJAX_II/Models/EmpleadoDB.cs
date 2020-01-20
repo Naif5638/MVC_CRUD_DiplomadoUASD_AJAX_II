@@ -105,7 +105,7 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Models
                 con.Open();
                 SqlCommand command = new SqlCommand("InsertUpdateUser", con);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
-
+                command.Parameters.AddWithValue("@UserId", user.UserId);
                 command.Parameters.AddWithValue("@Nombres", user.Nombres);
                 command.Parameters.AddWithValue("@Apellidos", user.Apellidos);
                 command.Parameters.AddWithValue("@UserName", user.UserName);
@@ -135,6 +135,30 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Models
                 i = command.ExecuteNonQuery();
             }
             return i;
+        }
+
+        public List<Users> Users()
+        {
+            List<Users> users = new List<Users>();
+            using(SqlConnection connection = new SqlConnection(cs))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("Select * from Users", connection);
+                command.CommandType = System.Data.CommandType.Text;
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    users.Add(new Users
+                    {
+                        UserId = Convert.ToInt32(reader["UserId"]),
+                        Nombres = reader["Nombres"].ToString(),
+                        Apellidos = reader["Apellidos"].ToString(),
+                        UserName = reader["UserName"].ToString(),
+                        Email = reader["Email"].ToString()
+                    });
+                }
+            }
+            return users;
         }
     }
 }

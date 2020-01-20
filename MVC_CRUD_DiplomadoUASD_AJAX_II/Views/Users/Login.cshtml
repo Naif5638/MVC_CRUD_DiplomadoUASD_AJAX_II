@@ -2,26 +2,78 @@
 @{
     ViewBag.Title = "Login";
 }
+<script src="~/Scripts/users.js"></script>
 
-<div class="row" style="background-color:aquamarine;">
+<div class="wrap">
     <div class="card">
         <div class="card-header">
             <h3>Iniciar Sesion</h3>
+            @*<p>Login to access your Dashboard</p>*@
         </div>
         <div class="card-body">
-            <div class="form-group">
-                <input for="Email" type="text" id="Email" placeholder="email@example.com" class="form-control"/>
-                @Html.ValidationMessageFor(l => l.Email, "" , new { @class = "text-danger"})
-            </div>
-            <div class="form-group">
-                <input for="Password" type="password" id="Password" placeholder="password" class="form-control" />
-                @Html.ValidationMessageFor(l => l.Password, "", new { @class = "text-danger" })
-            </div>
+            @using (Html.BeginForm("Login", "Users", FormMethod.Post))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.EditorFor(u => u.Email, new { htmlAttributes = new { @class = "card-text", @placeholder = "email@gmail.com..." }, })
+                    @Html.ValidationMessageFor(l => l.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(u => u.Password, new { htmlAttributes = new { @class = "card-text", @placeholder = "Contraseña..." }, })
+                    @Html.ValidationMessageFor(l => l.Password, "", new { @class = "text-danger" })
+                </div>
 
-            <div>
-                <button class="form-button" type="submit">Login</button>
+                <div>
+                    <button class="form-button" type="submit">Login</button>
+                </div>
+                <p>No tiene una cuenta? <a href="#" data-toggle="modal" data-target="#myModal">Sing Up</a></p>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+                @Html.ValidationSummary()
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm())
+                {
+                    <input type="hidden" id="UserId" class="form-control" />
+
+                    <div class="form-group">
+                        <label for="Nombres">Nombres</label>
+                        <input id="Nombres" type="text" class="form-control" placeholder="Nombres" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Apellidos">Apellidos</label>
+                        <input id="Apellidos" type="text" class="form-control" placeholder="Apellidos" />
+                    </div>
+                    <div class="form-group">
+                        <label for="UserName">UserName</label>
+                        <input id="UserName" type="text" class="form-control" placeholder="UserName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input id="userEmail" type="text" class="form-control" placeholder="email@gmail.com" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Contraseña</label>
+                        <input for="Password" id="userPassword" type="password" class="form-control" placeholder="Contraseña" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Confirmar</label>
+                        <input for="ConfirmPassword" id="ConfirmPassword" type="password" class="form-control" placeholder="Confirmar contraseña" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" onclick="SignUp();" style="margin-left: 195px;">Registrar</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
-
 </div>

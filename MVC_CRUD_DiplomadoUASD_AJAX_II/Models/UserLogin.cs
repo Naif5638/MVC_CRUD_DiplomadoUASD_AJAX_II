@@ -12,6 +12,7 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Models
     public class UserLogin
     {
         string cs = ConfigurationManager.ConnectionStrings["ConnectionStrDB"].ConnectionString;
+        public virtual Users User { get; set; }
 
         [EmailAddress]
         [Required(ErrorMessage = "El email es requerido")]
@@ -21,36 +22,40 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Models
         [StringLength(100, ErrorMessage = "El numero de {0} debe ser al menos {2}", MinimumLength = 3)]
         [Required(ErrorMessage = "El password es requerido")]
         [Display(Name = "Contraseña")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        public string UserName { get; set; }
 
         public bool Login()
         {
-            Users user = new Users();
             using (SqlConnection con = new SqlConnection(cs))
             {
+                con.Open();
                 SqlCommand command = new SqlCommand("select * from Users" +
-                    "Where Email = @email AND Password = @password", con);
+                    " Where Email = @email AND Password = @password", con);
+                command.CommandType = System.Data.CommandType.Text;
                 command.Parameters.AddWithValue("@email", Email);
                 command.Parameters.AddWithValue("@password", Password);
+
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    user.UserId = Convert.ToInt32(reader["UserId"].ToString());
-                    user.Nombres = reader["Nombres"].ToString();
-                    user.Apellidos = reader["Apellidos"].ToString();
-                    user.UserName = reader["UserName"].ToString();
-                    user.Email = Email;                    
-                }              
-            }
+                    User = new Users
+                    {
+                        UserId = Convert.ToInt32(reader["UserId"]),
+                        Nombres = reader["Nombres"].ToString(),
+                        Apellidos = reader["Apellidos"].ToString(),
+                        UserName = reader["UserName"].ToString(),
+                        Email = Email
+                    };
 
-            if (user != null)
+                }
+            }
+            if (User == null)
             {
-                return true;
+                return false;
             }
             else
-                return false;
+                return true;
         }
     }
 }
