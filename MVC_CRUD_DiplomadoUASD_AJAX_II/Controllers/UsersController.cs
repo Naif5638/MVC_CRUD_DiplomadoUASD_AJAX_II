@@ -20,6 +20,33 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Controllers
             return View(listUser);
         }
 
+        public ActionResult Details(int userId)
+        {
+            var user = empleadoDB.User(userId);
+            return View(user);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var user = empleadoDB.User(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Users user)
+        {
+            if(user != null)
+            {
+                int i = empleadoDB.UpdateUser(user);
+                if (i != 0)
+                {
+                    ModelState.AddModelError(string.Empty, "Datos enviados no estan correctos..");
+                    return View(user);
+                }
+            }
+            return View("Index");
+        }
+
         // GET: Users
         public ActionResult Login()
         {

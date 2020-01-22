@@ -160,5 +160,31 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Models
             }
             return users;
         }
+
+        public Users User(int userId)
+        {
+            Users user = new Users();
+            using(SqlConnection connection = new SqlConnection(cs))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT * FROM Users"
+                    + "WHERE UserId = @userId", connection);
+                command.Parameters.AddWithValue("@userId", userId);
+                command.CommandType = System.Data.CommandType.Text;
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    user.UserId = Convert.ToInt32(reader["UserId"].ToString());
+                    user.Nombres = reader["Nombres"].ToString();
+                    user.Apellidos = reader["Apellidos"].ToString();
+                    user.UserName = reader["UserName"].ToString();
+                    user.Email = reader["Email"].ToString();
+                }
+            }
+
+
+            return user;
+        }
     }
 }
