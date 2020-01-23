@@ -16,7 +16,8 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Models
 
         public void setSession(string name, string data)
         {
-            HttpContext.Current.Session[name] = data;
+            HttpContext context = HttpContext.Current;
+            context.Session[name] = data;
         }
 
         public void destroySession()

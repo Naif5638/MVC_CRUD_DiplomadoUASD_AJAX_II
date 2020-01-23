@@ -13,7 +13,7 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Controllers
     {
         EmpleadoDB empleadoDB = new EmpleadoDB();
         SessionData session = new SessionData();
-        
+
         public ActionResult Index()
         {
             var listUser = empleadoDB.Users();
@@ -35,7 +35,7 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Controllers
         [HttpPost]
         public ActionResult Edit(Users user)
         {
-            if(user != null)
+            if (user != null)
             {
                 int i = empleadoDB.UpdateUser(user);
                 if (i != 0)
@@ -50,6 +50,10 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Controllers
         // GET: Users
         public ActionResult Login()
         {
+            if (session.getSession("userName") != string.Empty)
+            {
+                return RedirectToAction("Index", "Users");
+            }
             return View();
         }
 
@@ -89,7 +93,7 @@ namespace MVC_CRUD_DiplomadoUASD_AJAX_II.Controllers
             {
                 return View(user);
             }
-            
+
             return View("Login");
         }
 

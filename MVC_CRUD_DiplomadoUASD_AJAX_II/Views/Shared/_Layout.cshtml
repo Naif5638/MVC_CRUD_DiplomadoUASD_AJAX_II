@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -23,6 +24,24 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+            </div>
+            <div class="nav navbar navbar-right">
+                <ul>
+                   
+                    @if (Session["userName"] != null)
+                    {
+                        string link = (string)Session["userName"];
+                        if (link is null || link == "")
+                        {
+                            link = "vamos";
+                        }
+                        <li>@Html.ActionLink(link, "User", "Users")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "Users")</li>
+                    }
                 </ul>
             </div>
         </div>
